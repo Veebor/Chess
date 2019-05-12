@@ -13,12 +13,14 @@ double delt = fabs(l - l_2);
 double delh = fabs(h - h_2);
 
 // Definiamo la tavola di partenza
-string set[64]= {"R01","R02","K01","K02","B01","B02" ,"Q0","L0","P01","P02",                     "P03","P04","P05","P06","P07","P08",
+string set[64]= {"R01","R02","K01","K02","B01","B02" ,"Q0","L0",
+                 "P01","P02","P03","P04","P05","P06","P07","P08",
                  "0","0","0","0","0","0","0","0",
                  "0","0","0","0","0","0","0","0",
                  "0","0","0","0","0","0","0","0",
                  "0","0","0","0","0","0","0","0",
-                 "P11","P12","P13","P14","P15","P16","P17","P18","R11","R12","K11","K12","B11","B12" ,"Q1","F1"
+                 "P11","P12","P13","P14","P15","P16","P17","P18",
+                 "R11","R12","K11","K12","B11","B12" ,"Q1","F1"
 };
 
 // Carichiamo la tavola in un oggetto Matrice
@@ -39,6 +41,49 @@ bool moveStart(int l, int h) {
     return isNotValid;
 }
 
+bool antiJump(int l, int h){
+    //cout << "Inserire l e h " << endl;
+    //cin >> l_2;
+    //cin >> h_2;
+    int k = l_2 ;
+    int j = h_2 ;
+    bool antiJumpbool = false ;
+    string toJumpStart = M[l][h];
+    cout << toJumpStart[0] << endl;
+   
+     if (delh == 0){
+        while( M[k][j] != M[l][h]){
+          if (M[k][j] == "0" ){
+            cout << "j:"<<  M[k][h] <<endl; 
+            k--;    
+                        
+          }else {
+            
+            cout << "non saltare nessuno"<<   M[k][h] <<endl; 
+            antiJumpbool = true;  
+            break;
+            
+          }
+
+         }
+      }else {
+        while( M[k][j] != M[l][h]){
+          if (M[k][j] == "0" ){
+            cout << "j:"<<  M[l][j] <<endl;    
+            j--; 
+               
+          }else {
+          cout << "k:"<<  M[l][j] <<endl; 
+          antiJumpbool = true;  
+          break;
+          }
+
+      }
+    }
+   
+    return antiJumpbool;
+}
+
 // Definizione della classe pedone che prevede gli spostamenti di questa tipologia di pezzi
 class pedone {
 public:
@@ -56,7 +101,7 @@ public:
         // TODO: qui potrebbe tornare utile un do-while
         // per ripetere l'operazione finchè l'utente non inserisce una mossa valida
 
-        if (!validita || moveStart(l, h)) {
+        if (!validita || moveStart(l, h) || antiJump(l, h)) {
             cout << "Mossa non valida" << endl;
         } else {
             cout << "Mossa valida" << endl;
@@ -87,7 +132,7 @@ public:
         cin >> h_2;
         delt = fabs(l - l_2);
         delh = fabs(h - h_2);
-        if (delh != 0 & delt != 0 ) {
+        if (delh != 0 & delt != 0) {
             validita = false;
 
         } else { NULL;};
