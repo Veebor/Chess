@@ -1,5 +1,5 @@
 #include <iostream>
-#include <Matrix.h> 
+#include "Matrix.h" 
 #include <cmath>
 using namespace std;
 
@@ -7,9 +7,12 @@ int l;
 int h;
 int l_2;
 int h_2;
+
+// Definiamo i delta degli spostamenti dei pezzi
 double delt = fabs(l - l_2);
 double delh = fabs(h - h_2);
 
+// Definiamo la tavola di partenza
 string set[64]= {"R01","R02","K01","K02","B01","B02" ,"Q0","L0","P01","P02",                     "P03","P04","P05","P06","P07","P08",
                  "0","0","0","0","0","0","0","0",
                  "0","0","0","0","0","0","0","0",
@@ -18,18 +21,25 @@ string set[64]= {"R01","R02","K01","K02","B01","B02" ,"Q0","L0","P01","P02",    
                  "P11","P12","P13","P14","P15","P16","P17","P18","R11","R12","K11","K12","B11","B12" ,"Q1","F1"
 };
 
-Matrix<string>  M (8,8, set);
+// Carichiamo la tavola in un oggetto Matrice
+Matrix<string>  M(8,8, set);
 
 bool moveStart(int l, int h) {
+    // Richiediamo all'utente di inserire la nuova posizione del pezzo scelto
     cout << "Inserire l e h su due righe diverse" << endl;
     cin >> l_2;
     cin >> h_2;
+    // Leggiamo il nome del nostro pezzo...
     string toMoveStart = M[l][h];
+    // ...e del pezzo dove vogliamo spostarci
     string toMove = M[l_2][h_2]; 
+    // Non automangiamoci
     bool isNotValid = toMove[1] == toMoveStart[1];
+    // Rispondiamo alla chiamata della funzione
     return isNotValid;
 }
 
+// Definizione della classe pedone che prevede gli spostamenti di questa tipologia di pezzi
 class pedone {
 public:
     int l;
@@ -43,12 +53,18 @@ public:
             validita = true;
         };
 
+        // TODO: qui potrebbe tornare utile un do-while
+        // per ripetere l'operazione finchè l'utente non inserisce una mossa valida
+
         if (!validita || moveStart(l, h)) {
             cout << "Mossa non valida" << endl;
         } else {
             cout << "Mossa valida" << endl;
+            // Effettuiamo lo spostamento
             M[l_2][h_2] = M[l][h];
+            // Cancelliamo con uno "0" la posizione precedente del pezzo
             M[l][h] = "0";
+            // Aggiorniamo la posizione del pezzo
             l = l_2;
             h = h_2;
         }
