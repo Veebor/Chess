@@ -14,57 +14,82 @@ double delh = fabs(h - h_2);
 
 // Definiamo la tavola di partenza
 string set[64] = {"R01", "R02", "K01", "K02", "B01", "B02", "Q0", "L0",
-                  "P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
+                  "0", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
+                  "P11", "0", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
-                  "0", "0", "0", "0", "0", "0", "0", "0",
-                  "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18",
+                  "0", "P12", "P13", "P14", "P15", "P16", "P17", "P18",
                   "R11", "R12", "K11", "K12", "B11", "B12", "Q1", "F1"};
 
 // Carichiamo la tavola in un oggetto Matrice
 Matrix<string> M(8, 8, set);
 
-bool moveStart(int l, int h)
+bool moveStart(int l, int h, int l_2, int h_2)
 {
-  // Richiediamo all'utente di inserire la nuova posizione del pezzo scelto
-  cout << "Inserire l e h su due righe diverse" << endl;
-  cin >> l_2;
-  cin >> h_2;
-  // Leggiamo il nome del nostro pezzo...
   string toMoveStart = M[l][h];
-  // ...e del pezzo dove vogliamo spostarci
   string toMove = M[l_2][h_2];
-  // Non automangiamoci
-  bool isNotValid = toMove[1] == toMoveStart[1];
-  // Rispondiamo alla chiamata della funzione
-  return isNotValid;
-}
+  bool isNotValid;
+  if (M[l_2][h_2] == "0")
+  {
+    isNotValid = false;
+  }
+  else
+  {
+    isNotValid = toMove[1] == toMoveStart[1];
+  }
 
-bool antiJump(int l, int h)
+  return isNotValid;
+};
+bool antiJump(int l, int h,int l_2,int h_2)
 {
-  //cout << "Inserire l e h " << endl;
-  //cin >> l_2;
-  //cin >> h_2;
-  int k = l_2;
-  int j = h_2;
+  
+  int k;
+  int j;
+  if (l_2 < l)
+  {
+    k = l_2 + 1;
+  }
+  else
+  {
+    k = l_2 - 1;
+  }
+  if (h_2 < h)
+  {
+    j = h_2 + 1;
+  }
+  else
+  {
+    j = h_2 - 1;
+  }
+
   bool antiJumpbool = false;
   string toJumpStart = M[l][h];
-  cout << toJumpStart[0] << endl;
+  cout << toJumpStart[0] << M[l][h] << endl;
 
   if (delh == 0)
   {
-    while (M[k][j] != M[l][h])
+    while (M[k][h] != M[l][h])
     {
-      if (M[k][j] == "0")
+      if (M[k][h] == "0")
       {
-        cout << "j:" << M[k][h] << endl;
-        k--;
+
+        cout << "k:" << M[k][h] << endl;
+        if (l_2 < l)
+        {
+          cout << "k:+" << endl;
+          k++;
+        }
+        else
+        {
+          k--;
+          cout << "k:-" << endl;
+        }
       }
       else
       {
 
-        cout << "non saltare nessuno" << endl;
+        cout << "non saltare nessuno" << M[k][h] << endl;
         antiJumpbool = true;
         break;
       }
@@ -72,17 +97,24 @@ bool antiJump(int l, int h)
   }
   else
   {
-    while (M[k][j] != M[l][h])
+    while (M[k][l] != M[l][h])
     {
-      if (M[k][j] == "0")
+      if (M[k][l] == "0")
       {
+        cout << "k:" << M[l][j] << endl;
+        if (h_2 < h)
+        {
+          j++;
+        }
+        else
+        {
+          j--;
+        }
         cout << "j:" << M[l][j] << endl;
-        j--;
       }
       else
       {
-        cout << "k:" << M[l][j] << endl;
-        cout << "non saltare nessuno" << endl;
+
         antiJumpbool = true;
         break;
       }
@@ -90,7 +122,7 @@ bool antiJump(int l, int h)
   }
 
   return antiJumpbool;
-}
+};
 
 // Definizione della classe pedone che prevede gli spostamenti di questa tipologia di pezzi
 class pedone
@@ -101,8 +133,9 @@ public:
   bool validita;
   void move()
   {
-    // Definizione degli spostamenti non permessi
-    // TODO: Meglio definire quelli permessi e bloccare gli altri
+    cout << "Inserire l e h " << endl;
+    cin >> l_2;
+    cin >> h_2;
     if (delh != 0 || delt > 1)
     {
       validita = false;
@@ -110,27 +143,17 @@ public:
     else
     {
       validita = true;
-    }
+    };
 
-    bool miAutomangio = moveStart(l, h);
-
-    bool salto = antiJump(l, h);
-
-    // TODO: qui potrebbe tornare utile un do-while
-    // per ripetere l'operazione finchè l'utente non inserisce una mossa valida
-
-    if (!validita || miAutomangio || salto)
+    if (!validita || M[l_2][h_2] != "0")
     {
       cout << "Mossa non valida" << endl;
     }
     else
     {
       cout << "Mossa valida" << endl;
-      // Effettuiamo lo spostamento
       M[l_2][h_2] = M[l][h];
-      // Cancelliamo con uno "0" la posizione precedente del pezzo
       M[l][h] = "0";
-      // Aggiorniamo la posizione del pezzo
       l = l_2;
       h = h_2;
     }
@@ -150,13 +173,25 @@ public:
 
   void move()
   {
-    if (delh != 0 || delt != 0)
+    cout << "Inserire l e h " << endl;
+    cin >> l_2;
+    cin >> h_2;
+    // cout << "Inserire l e h su due righe diverse" << endl;
+    //cin >> l_2;
+    //cin >> h_2;
+    //delt = fabs(l - l_2);
+    //delh = fabs(h - h_2);
+    if ((delh != 0 & delt != 0) || antiJump(l, h,l_2,h_2) || moveStart(l, h, l_2, h_2))
     {
       cout << "Mossa non valida" << endl;
     }
     else
     {
-      NULL;
+      cout << "Mossa valida" << endl;
+      M[l_2][h_2] = M[l][h];
+      M[l][h] = "0";
+      l = l_2;
+      h = h_2;
     }
   }
 };
@@ -186,7 +221,7 @@ public:
     else
     {
       NULL;
-    };
+    }
   }
 };
 
@@ -339,7 +374,7 @@ public:
       }
       else if (typo == "torre1")
       {
-        T2.move();
+        T1.move();
       }
       else if (typo == "torre2")
       {
@@ -399,6 +434,23 @@ void setLocStart()
   p1.P7.h = 6;
   p1.P8.l = 1;
   p1.P8.h = 7;
+
+  p1.T1.l = 0;
+  p1.T1.h = 0;
+  p2.T1.l = 7;
+  p2.T1.h = 0;
+
+  /////////////
+  p1.T2.l = 1;
+  p1.T2.h = 1;
+
+  p2.T1.l = 7;
+  p2.T1.h = 0;
+
+  p1.KG.l = 1;
+  p1.KG.h = 0;
+  p1.Q.l = 1;
+  p1.Q.h = 1;
 
   p2.P1.l = 6;
   p2.P1.h = 0;
