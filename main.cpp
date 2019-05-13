@@ -9,8 +9,8 @@ int l_2;
 int h_2;
 
 // Definiamo i delta degli spostamenti dei pezzi
-double delt = fabs(l - l_2);
-double delh = fabs(h - h_2);
+double delt; 
+double delh;
 
 // Definiamo la tavola di partenza
 string set[64] = {"R01", "R02", "K01", "K02", "B01", "B02", "Q0", "L0",
@@ -128,6 +128,7 @@ bool antiJump(int l, int h,int l_2,int h_2)
 class pedone
 {
 public:
+ 
   int l;
   int h;
   bool validita;
@@ -136,6 +137,9 @@ public:
     cout << "Inserire l e h " << endl;
     cin >> l_2;
     cin >> h_2;
+    delt = fabs(l - l_2);
+    delh = fabs(h - h_2);
+
     if (delh != 0 || delt > 1)
     {
       validita = false;
