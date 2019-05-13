@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Matrix.h" 
+#include "Matrix.h"
 #include <cmath>
 using namespace std;
 
@@ -13,345 +13,421 @@ double delt = fabs(l - l_2);
 double delh = fabs(h - h_2);
 
 // Definiamo la tavola di partenza
-string set[64]= {"R01","R02","K01","K02","B01","B02" ,"Q0","L0",
-                 "P01","P02","P03","P04","P05","P06","P07","P08",
-                 "0","0","0","0","0","0","0","0",
-                 "0","0","0","0","0","0","0","0",
-                 "0","0","0","0","0","0","0","0",
-                 "0","0","0","0","0","0","0","0",
-                 "P11","P12","P13","P14","P15","P16","P17","P18",
-                 "R11","R12","K11","K12","B11","B12" ,"Q1","F1"
-};
+string set[64] = {"R01", "R02", "K01", "K02", "B01", "B02", "Q0", "L0",
+                  "P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
+                  "0", "0", "0", "0", "0", "0", "0", "0",
+                  "0", "0", "0", "0", "0", "0", "0", "0",
+                  "0", "0", "0", "0", "0", "0", "0", "0",
+                  "0", "0", "0", "0", "0", "0", "0", "0",
+                  "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18",
+                  "R11", "R12", "K11", "K12", "B11", "B12", "Q1", "F1"};
 
 // Carichiamo la tavola in un oggetto Matrice
-Matrix<string>  M(8,8, set);
+Matrix<string> M(8, 8, set);
 
-bool moveStart(int l, int h) {
-    // Richiediamo all'utente di inserire la nuova posizione del pezzo scelto
-    cout << "Inserire l e h su due righe diverse" << endl;
-    cin >> l_2;
-    cin >> h_2;
-    // Leggiamo il nome del nostro pezzo...
-    string toMoveStart = M[l][h];
-    // ...e del pezzo dove vogliamo spostarci
-    string toMove = M[l_2][h_2]; 
-    // Non automangiamoci
-    bool isNotValid = toMove[1] == toMoveStart[1];
-    // Rispondiamo alla chiamata della funzione
-    return isNotValid;
+bool moveStart(int l, int h)
+{
+  // Richiediamo all'utente di inserire la nuova posizione del pezzo scelto
+  cout << "Inserire l e h su due righe diverse" << endl;
+  cin >> l_2;
+  cin >> h_2;
+  // Leggiamo il nome del nostro pezzo...
+  string toMoveStart = M[l][h];
+  // ...e del pezzo dove vogliamo spostarci
+  string toMove = M[l_2][h_2];
+  // Non automangiamoci
+  bool isNotValid = toMove[1] == toMoveStart[1];
+  // Rispondiamo alla chiamata della funzione
+  return isNotValid;
 }
 
-bool antiJump(int l, int h){
-    //cout << "Inserire l e h " << endl;
-    //cin >> l_2;
-    //cin >> h_2;
-    int k = l_2 ;
-    int j = h_2 ;
-    bool antiJumpbool = false ;
-    string toJumpStart = M[l][h];
-    cout << toJumpStart[0] << endl;
-   
-     if (delh == 0){
-        while( M[k][j] != M[l][h]){
-          if (M[k][j] == "0" ){
-            cout << "j:"<<  M[k][h] <<endl; 
-            k--;    
-                        
-          }else {
-            
-            cout << "non saltare nessuno"<<   M[k][h] <<endl; 
-            antiJumpbool = true;  
-            break;
-            
-          }
+bool antiJump(int l, int h)
+{
+  //cout << "Inserire l e h " << endl;
+  //cin >> l_2;
+  //cin >> h_2;
+  int k = l_2;
+  int j = h_2;
+  bool antiJumpbool = false;
+  string toJumpStart = M[l][h];
+  cout << toJumpStart[0] << endl;
 
-         }
-      }else {
-        while( M[k][j] != M[l][h]){
-          if (M[k][j] == "0" ){
-            cout << "j:"<<  M[l][j] <<endl;    
-            j--; 
-               
-          }else {
-          cout << "k:"<<  M[l][j] <<endl; 
-          antiJumpbool = true;  
-          break;
-          }
+  if (delh == 0)
+  {
+    while (M[k][j] != M[l][h])
+    {
+      if (M[k][j] == "0")
+      {
+        cout << "j:" << M[k][h] << endl;
+        k--;
+      }
+      else
+      {
 
+        cout << "non saltare nessuno" << endl;
+        antiJumpbool = true;
+        break;
       }
     }
-   
-    return antiJumpbool;
+  }
+  else
+  {
+    while (M[k][j] != M[l][h])
+    {
+      if (M[k][j] == "0")
+      {
+        cout << "j:" << M[l][j] << endl;
+        j--;
+      }
+      else
+      {
+        cout << "k:" << M[l][j] << endl;
+        cout << "non saltare nessuno" << endl;
+        antiJumpbool = true;
+        break;
+      }
+    }
+  }
+
+  return antiJumpbool;
 }
 
 // Definizione della classe pedone che prevede gli spostamenti di questa tipologia di pezzi
-class pedone {
+class pedone
+{
 public:
-    int l;
-    int h;
-    bool validita;
-    void move() {    
-        if (delh != 0 || delt > 1 ) {
-            validita = false;
+  int l;
+  int h;
+  bool validita;
+  void move()
+  {
+    // Definizione degli spostamenti non permessi
+    // TODO: Meglio definire quelli permessi e bloccare gli altri
+    if (delh != 0 || delt > 1)
+    {
+      validita = false;
+    }
+    else
+    {
+      validita = true;
+    }
 
-        } else { 
-            validita = true;
-        };
+    bool miAutomangio = moveStart(l, h);
 
-        // TODO: qui potrebbe tornare utile un do-while
-        // per ripetere l'operazione finchè l'utente non inserisce una mossa valida
+    bool salto = antiJump(l, h);
 
-        if (!validita || moveStart(l, h) || antiJump(l, h)) {
-            cout << "Mossa non valida" << endl;
-        } else {
-            cout << "Mossa valida" << endl;
-            // Effettuiamo lo spostamento
-            M[l_2][h_2] = M[l][h];
-            // Cancelliamo con uno "0" la posizione precedente del pezzo
-            M[l][h] = "0";
-            // Aggiorniamo la posizione del pezzo
-            l = l_2;
-            h = h_2;
-        }
+    // TODO: qui potrebbe tornare utile un do-while
+    // per ripetere l'operazione finchè l'utente non inserisce una mossa valida
 
-    };
+    if (!validita || miAutomangio || salto)
+    {
+      cout << "Mossa non valida" << endl;
+    }
+    else
+    {
+      cout << "Mossa valida" << endl;
+      // Effettuiamo lo spostamento
+      M[l_2][h_2] = M[l][h];
+      // Cancelliamo con uno "0" la posizione precedente del pezzo
+      M[l][h] = "0";
+      // Aggiorniamo la posizione del pezzo
+      l = l_2;
+      h = h_2;
+    }
+  }
 };
 
-class torre {
+class torre
+{
 private:
-    double delt;
-    double delh;
+  double delt;
+  double delh;
+
 public:
-    int l;
-    int h;
-    bool validita;
+  int l;
+  int h;
+  bool validita;
 
-    void move() {
-        cout << "Inserire l e h su due righe diverse" << endl;
-        cin >> l_2;
-        cin >> h_2;
-        delt = fabs(l - l_2);
-        delh = fabs(h - h_2);
-        if (delh != 0 & delt != 0) {
-            validita = false;
-
-        } else { NULL;};
-
-    };
+  void move()
+  {
+    if (delh != 0 || delt != 0)
+    {
+      cout << "Mossa non valida" << endl;
+    }
+    else
+    {
+      NULL;
+    }
+  }
 };
 
-class cavallo {
+class cavallo
+{
 private:
-    double delt;
-    double delh;
+  double delt;
+  double delh;
+
 public:
-    int l;
-    int h;
-    bool validita;
+  int l;
+  int h;
+  bool validita;
 
-    void move() {
-        cout << "Inserire l e h su due righe diverse" << endl;
-        cin >> l_2;
-        cin >> h_2;
-        delt = fabs(l - l_2);
-        delh = fabs(h - h_2);
-        if ((fabs(l_2 - l) != 1 || fabs(h_2 - h) != 2) & (fabs(l_2 - l) != 2 || fabs(h_2 - h) != 1)) {
-            validita = false;
-
-        } else { NULL;};
-
+  void move()
+  {
+    cout << "Inserire l e h su due righe diverse" << endl;
+    cin >> l_2;
+    cin >> h_2;
+    delt = fabs(l - l_2);
+    delh = fabs(h - h_2);
+    if ((fabs(l_2 - l) != 1 || fabs(h_2 - h) != 2) & (fabs(l_2 - l) != 2 || fabs(h_2 - h) != 1))
+    {
+      validita = false;
+    }
+    else
+    {
+      NULL;
     };
+  }
 };
 
-class alfiere {
+class alfiere
+{
 private:
-    double delt;
-    double delh;
+  double delt;
+  double delh;
+
 public:
-    int l;
-    int h;
-    bool validita;
+  int l;
+  int h;
+  bool validita;
 
-    void move() {
-        cout << "Inserire l e h su due righe diverse" << endl;
-        cin >> l_2;
-        cin >> h_2;
-        delt = fabs(l - l_2);
-        delh = fabs(h - h_2);
-        if (l + h != l_2 + h_2 & l - h != l_2 - h_2) {
-            validita = false;
-
-        } else { NULL;};
-
-    };
+  void move()
+  {
+    cout << "Inserire l e h su due righe diverse" << endl;
+    cin >> l_2;
+    cin >> h_2;
+    delt = fabs(l - l_2);
+    delh = fabs(h - h_2);
+    if (l + h != l_2 + h_2 & l - h != l_2 - h_2)
+    {
+      validita = false;
+    }
+    else
+    {
+      NULL;
+    }
+  }
 };
 
-class regina {
+class regina
+{
 private:
-    double delt;
-    double delh;
+  double delt;
+  double delh;
+
 public:
-    int l;
-    int h;
-    bool validita;
+  int l;
+  int h;
+  bool validita;
 
-    void move() {
-        
-        cout << "Inserire l e h su due righe diverse" << endl;
-        cin >> l_2;
-        cin >> h_2;
-        delt = fabs(l - l_2);
-        delh = fabs(h - h_2);
-        if (l + h != l_2 + h_2 & l - h != l_2 - h_2 & delh != 0 & delt != 0){
-            validita = false;
+  void move()
+  {
 
-        } else { NULL;};
-
-    };
+    cout << "Inserire l e h su due righe diverse" << endl;
+    cin >> l_2;
+    cin >> h_2;
+    delt = fabs(l - l_2);
+    delh = fabs(h - h_2);
+    if (l + h != l_2 + h_2 & l - h != l_2 - h_2 & delh != 0 & delt != 0)
+    {
+      validita = false;
+    }
+    else
+    {
+      NULL;
+    }
+  }
 };
 
-class re {
+class re
+{
 private:
-    double delt;
-    double delh;
+  double delt;
+  double delh;
+
 public:
-    int l;
-    int h;
-    bool validita;
+  int l;
+  int h;
+  bool validita;
 
-    void move() {
-        cout << "Inserire l e h su due righe diverse" << endl;
-        cin >> l_2;
-        cin >> h_2;
-        delt = fabs(l - l_2);
-        delh = fabs(h - h_2);
-        if  (delh > 1 || delt > 1)  {
-            validita = false;
-
-        } else { NULL;};
-
-    };
+  void move()
+  {
+    cout << "Inserire l e h su due righe diverse" << endl;
+    cin >> l_2;
+    cin >> h_2;
+    delt = fabs(l - l_2);
+    delh = fabs(h - h_2);
+    if (delh > 1 || delt > 1)
+    {
+      validita = false;
+    }
+    else
+    {
+      NULL;
+    }
+  }
 };
 
-struct  squadra{
+struct squadra
+{
 public:
-    pedone P1;
-    pedone P2;
-    pedone P3;
-    pedone P4;
-    pedone P5;
-    pedone P6;
-    pedone P7;
-    pedone P8;
-    re KG;
-    regina Q;
-    alfiere B1;
-    alfiere B2;
-    torre T1;
-    torre T2;
-    cavallo C1;
-    cavallo C2;
- void scelta(){
+  pedone P1;
+  pedone P2;
+  pedone P3;
+  pedone P4;
+  pedone P5;
+  pedone P6;
+  pedone P7;
+  pedone P8;
+  re KG;
+  regina Q;
+  alfiere B1;
+  alfiere B2;
+  torre T1;
+  torre T2;
+  cavallo C1;
+  cavallo C2;
+  void scelta()
+  {
     bool flag1;
-    do {
-      flag1 = true;    
+    do
+    {
+      flag1 = true;
       string typo;
       cin >> typo;
-      if (typo == "pedone1") {
+      if (typo == "pedone1")
+      {
         P1.move();
-      } else if(typo =="pedone2") {
+      }
+      else if (typo == "pedone2")
+      {
         P2.move();
-      } else if(typo =="pedone3") {
+      }
+      else if (typo == "pedone3")
+      {
         P3.move();
-      } else if(typo =="pedone4") {
+      }
+      else if (typo == "pedone4")
+      {
         P4.move();
-      } else if(typo =="pedone5") {
-       P5.move();
-      } else if(typo =="pedone6") {
+      }
+      else if (typo == "pedone5")
+      {
+        P5.move();
+      }
+      else if (typo == "pedone6")
+      {
         P6.move();
-      } else if(typo =="pedone7") {
+      }
+      else if (typo == "pedone7")
+      {
         P7.move();
-     } else if(typo =="pedone8") {
+      }
+      else if (typo == "pedone8")
+      {
         P8.move();
-      } else if(typo =="torre1") {
+      }
+      else if (typo == "torre1")
+      {
         T2.move();
-      } else if(typo =="torre2") {
+      }
+      else if (typo == "torre2")
+      {
         T2.move();
-      } else if(typo =="alfiere1") {
+      }
+      else if (typo == "alfiere1")
+      {
         B1.move();
-      } else if(typo =="alfiere2") {
+      }
+      else if (typo == "alfiere2")
+      {
         B2.move();
-      } else if(typo =="cavallo1") {
+      }
+      else if (typo == "cavallo1")
+      {
         C1.move();
-      } else if(typo =="cavallo2") {
+      }
+      else if (typo == "cavallo2")
+      {
         C2.move();
-      } else if(typo =="regina") {
+      }
+      else if (typo == "regina")
+      {
         Q.move();
-      } else if(typo =="re") {
+      }
+      else if (typo == "re")
+      {
         KG.move();
-      } else {
+      }
+      else
+      {
         cout << "COGLIONE!" << endl;
         flag1 = false;
       }
-  } while (flag1 == false);
-    
-
-
-
-};
-
+    } while (flag1 == false);
+  }
 };
 
 squadra p1;
 squadra p2;
 
-void setLocStart() {
-    p1.P1.l = 1;
-    p1.P1.h = 0;
-    p1.P2.l = 1;
-    p1.P2.h = 1;
-    p1.P3.l = 1;
-    p1.P3.h = 2;
-    p1.P4.l = 1;
-    p1.P4.h = 3;
-    p1.P5.l = 1;
-    p1.P5.h = 4;
-    p1.P6.l = 1;
-    p1.P6.h = 5;  
-    p1.P7.l = 1;
-    p1.P7.h = 6;
-    p1.P8.l = 1;
-    p1.P8.h = 7;  
-    
-    p2.P1.l = 6;
-    p2.P1.h = 0;
-    p2.P2.l = 6;
-    p2.P2.h = 1;
-    p2.P3.l = 6;
-    p2.P3.h = 2;
-    p2.P4.l = 6;
-    p2.P4.h = 3;
-    p2.P5.l = 6;
-    p2.P5.h = 4;
-    p2.P6.l = 6;
-    p2.P6.h = 5;  
-    p2.P7.l = 6;
-    p2.P7.h = 6;
-    p2.P8.l = 6;
-    p2.P8.h = 7;  
+void setLocStart()
+{
+  p1.P1.l = 1;
+  p1.P1.h = 0;
+  p1.P2.l = 1;
+  p1.P2.h = 1;
+  p1.P3.l = 1;
+  p1.P3.h = 2;
+  p1.P4.l = 1;
+  p1.P4.h = 3;
+  p1.P5.l = 1;
+  p1.P5.h = 4;
+  p1.P6.l = 1;
+  p1.P6.h = 5;
+  p1.P7.l = 1;
+  p1.P7.h = 6;
+  p1.P8.l = 1;
+  p1.P8.h = 7;
 
+  p2.P1.l = 6;
+  p2.P1.h = 0;
+  p2.P2.l = 6;
+  p2.P2.h = 1;
+  p2.P3.l = 6;
+  p2.P3.h = 2;
+  p2.P4.l = 6;
+  p2.P4.h = 3;
+  p2.P5.l = 6;
+  p2.P5.h = 4;
+  p2.P6.l = 6;
+  p2.P6.h = 5;
+  p2.P7.l = 6;
+  p2.P7.h = 6;
+  p2.P8.l = 6;
+  p2.P8.h = 7;
+}
 
-};
-
-
-int main() {
-    setLocStart();
-    //p1.P1.h = 0;
-    for (int turni = 0; turni < 4; turni++) {
-        cout << M << endl;
-        p1.scelta();
-        cout << M << endl;
-        p2.scelta();   
-    }
-    return 0;
-};
+int main()
+{
+  setLocStart();
+  //p1.P1.h = 0;
+  for (int turni = 0; turni < 4; turni++)
+  {
+    cout << M << endl;
+    p1.scelta();
+    cout << M << endl;
+    p2.scelta();
+  }
+  return 0;
+}
