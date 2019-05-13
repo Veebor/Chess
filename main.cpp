@@ -180,11 +180,8 @@ public:
     cout << "Inserire l e h " << endl;
     cin >> l_2;
     cin >> h_2;
-    // cout << "Inserire l e h su due righe diverse" << endl;
-    //cin >> l_2;
-    //cin >> h_2;
-    //delt = fabs(l - l_2);
-    //delh = fabs(h - h_2);
+    delt = fabs(l - l_2);
+    delh = fabs(h - h_2);
     if ((delh != 0 & delt != 0) || antiJump(l, h,l_2,h_2) || moveStart(l, h, l_2, h_2))
     {
       cout << "Mossa non valida" << endl;
