@@ -9,17 +9,17 @@ int l_2;
 int h_2;
 
 // Definiamo i delta degli spostamenti dei pezzi
-double delt; 
+double delt;
 double delh;
 
 // Definiamo la tavola di partenza
 string set[64] = {"R01", "R02", "K01", "K02", "B01", "B02", "Q0", "L0",
-                  "0", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
+                  "P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
-                  "P11", "0", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
-                  "0", "P12", "P13", "P14", "P15", "P16", "P17", "P18",
+                  "0", "0", "0", "0", "0", "0", "0", "0",
+                  "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18",
                   "R11", "R12", "K11", "K12", "B11", "B12", "Q1", "F1"};
 
 // Carichiamo la tavola in un oggetto Matrice
@@ -36,14 +36,18 @@ bool moveStart(int l, int h, int l_2, int h_2)
   }
   else
   {
-    isNotValid = toMove[1] == toMoveStart[1];
+    isNotValid = (toMove[1] == toMoveStart[1]);
+    if (!isNotValid)
+    {
+      cout << toMoveStart << " mangia " << toMove << endl;
+    }
   }
 
   return isNotValid;
 };
-bool antiJump(int l, int h,int l_2,int h_2)
+bool antiJump(int l, int h, int l_2, int h_2)
 {
-  
+
   int k;
   int j;
   if (l_2 < l)
@@ -128,7 +132,6 @@ bool antiJump(int l, int h,int l_2,int h_2)
 class pedone
 {
 public:
- 
   int l;
   int h;
   bool validita;
@@ -149,7 +152,7 @@ public:
       validita = true;
     };
 
-    if (!validita || M[l_2][h_2] != "0")
+    if (!validita || moveStart(l, h, l_2, h_2))
     {
       cout << "Mossa non valida" << endl;
     }
@@ -182,7 +185,7 @@ public:
     cin >> h_2;
     delt = fabs(l - l_2);
     delh = fabs(h - h_2);
-    if ((delh != 0 & delt != 0) || antiJump(l, h,l_2,h_2) || moveStart(l, h, l_2, h_2))
+    if ((delh != 0 & delt != 0) || antiJump(l, h, l_2, h_2) || moveStart(l, h, l_2, h_2))
     {
       cout << "Mossa non valida" << endl;
     }
@@ -339,8 +342,10 @@ public:
     do
     {
       flag1 = true;
+      cout << "Quale pezzo vuoi muovere? (reset per pulire la tavola e ricominciare)" << endl;
       string typo;
       cin >> typo;
+      // Non possiamo usare uno switch-case poichè typo è di tipo stringa
       if (typo == "pedone1")
       {
         P1.move();
