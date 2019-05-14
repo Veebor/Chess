@@ -13,14 +13,14 @@ double delt;
 double delh;
 
 // Definiamo la tavola di partenza
-string set[64] = {"R01", "R02", "K01", "K02", "B01", "B02", "Q0", "L0",
+string set[64] = {"R01", "R02", "B01", "K01", "K02", "B02", "Q0", "L0",
                   "P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18",
-                  "R11", "R12", "K11", "K12", "B11", "B12", "Q1", "F1"};
+                  "R11", "R12", "B11", "K11", "K12", "B12", "Q1", "F1"};
 
 // Carichiamo la tavola in un oggetto Matrice
 Matrix<string> M(8, 8, set);
@@ -247,13 +247,20 @@ public:
     cin >> h_2;
     delt = fabs(l - l_2);
     delh = fabs(h - h_2);
-    if (l + h != l_2 + h_2 & l - h != l_2 - h_2)
+    cout << l << h;
+    cout << delt << delh;
+    if (delt != delh || moveStart(l, h, l_2, h_2))
     {
       validita = false;
+      cout << "Mossa non valida" << endl;
     }
     else
     {
-      NULL;
+      cout << "Mossa valida" << endl;
+      M[l_2][h_2] = M[l][h];
+      M[l][h] = "0";
+      l = l_2;
+      h = h_2;
     }
   }
 };
@@ -458,6 +465,11 @@ void setLocStart()
   p1.Q.l = 1;
   p1.Q.h = 1;
 
+  p1.B1.l = 0;
+  p1.B1.h = 2;
+  p1.B2.l = 0;
+  p1.B2.h = 5;
+
   p2.P1.l = 6;
   p2.P1.h = 0;
   p2.P2.l = 6;
@@ -474,6 +486,11 @@ void setLocStart()
   p2.P7.h = 6;
   p2.P8.l = 6;
   p2.P8.h = 7;
+
+  p2.B1.l = 7;
+  p2.B1.h = 2;
+  p2.B2.l = 7;
+  p2.B2.h = 5;
 }
 
 int main()
