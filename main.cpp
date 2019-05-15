@@ -12,15 +12,17 @@ int h_2;
 double delt;
 double delh;
 
+
 // Definiamo la tavola di partenza
-string set[64] = {"R01", "R02", "B01", "K01", "K02", "B02", "Q0", "L0",
+string set[64] = {"R01", "K01", "B01", "Q0", "L0", "B02", "K02", "R02",
                   "P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18",
-                  "R11", "R12", "B11", "K11", "K12", "B12", "Q1", "F1"};
+                  "R11", "K11", "B11", "F1", "Q1", "B12", "K12", "R12"
+                  };
 
 // Carichiamo la tavola in un oggetto Matrice
 Matrix<string> M(8, 8, set);
@@ -45,55 +47,153 @@ bool moveStart(int l, int h, int l_2, int h_2)
 
   return isNotValid;
 };
-bool antiJump(int l, int h, int l_2, int h_2)
+bool antiJump(int l, int h, int l_2, int h_2,int flagAntiJump)
 {
-
+  bool antiJumpbool ;
+  int delx =  l_2- l;
+  int dely =  h_2- h;
   int k;
   int j;
-  if (l_2 < l)
-  {
-    k = l_2 + 1;
-  }
-  else
-  {
-    k = l_2 - 1;
-  }
-  if (h_2 < h)
-  {
-    j = h_2 + 1;
-  }
-  else
-  {
-    j = h_2 - 1;
-  }
 
-  bool antiJumpbool = false;
-  string toJumpStart = M[l][h];
-  cout << toJumpStart[0] << M[l][h] << endl;
+  if (flagAntiJump == 0 ){
 
-  if (delh == 0)
-  {
-    while (M[k][h] != M[l][h])
+    if (l_2 < l)
     {
-      if (M[k][h] == "0")
-      {
+      k = l_2 + 1;
+    }
+    else
+    {
+      k = l_2 - 1;
+    }
+    if (h_2 < h)
+    {
+      j = h_2 + 1;
+    }
+    else
+    {
+      j = h_2 - 1;
+    }
 
-        cout << "k:" << M[k][h] << endl;
-        if (l_2 < l)
+    antiJumpbool = false;
+    string toJumpStart = M[l][h];
+    cout << toJumpStart[0] << M[l][h] << endl;
+
+    if (delh == 0)
+    {
+      while (M[k][h] != M[l][h])
+      {
+        if (M[k][h] == "0")
         {
-          cout << "k:+" << endl;
-          k++;
+
+          cout << "k:" << M[k][h] << endl;
+          if (l_2 < l)
+          {
+            cout << "k:+" << endl;
+            k++;
+          }
+          else
+          {
+            k--;
+            cout << "k:-" << endl;
+          }
         }
         else
         {
-          k--;
-          cout << "k:-" << endl;
+
+          cout << "non saltare nessuno" << M[k][h] << endl;
+          antiJumpbool = true;
+          break;
         }
+      }
+    }
+    else
+    {
+      while (M[k][l] != M[l][h])
+      {
+        if (M[k][l] == "0")
+        {
+          cout << "k:" << M[l][j] << endl;
+          if (h_2 < h)
+          {
+            j++;
+          }
+          else
+          {
+            j--;
+          }
+          cout << "j:" << M[l][j] << endl;
+        }
+        else
+        {
+
+          antiJumpbool = true;
+          break;
+        }
+      }
+    }
+  }else if (flagAntiJump == 1) {
+    cout << "dely" << dely << "delx"<< delx << endl;
+    int mover0;
+    int mover1;
+    //////////////////////////////////////////////////////////
+    if (dely*delx > 0 )
+    {
+
+     if (dely < 0 ){
+        cout << "sinistra in alto"<< endl;
+        k = l_2+1;
+        j = h_2+1;
+        mover0 = 1;
+        mover1 = 1;
+
+     }
+     else
+     {
+       cout << "destra in basso"<< endl;
+       k = l_2-1;
+       j = h_2-1;
+       mover0 = -1;
+       mover1 = -1;
+
+
+     }
+     
+    }
+    else
+    {
+       if (dely > 0 ){
+        cout << "destra in alto"<< endl;
+        k = l_2+1;
+        j = h_2-1;
+        mover0 = +1;
+        mover1 = -1;
+
+     }
+     else
+     {
+        cout << "sinistra in basso" << endl;
+        k = l_2-1;
+        j = h_2+1;
+        mover0 = -1;
+        mover1 = +1;
+     }
+      
+    }
+  
+  while (M[k][j] != M[l][h])
+    {
+      if (M[k][j] == "0")
+      {
+
+        cout << "k:" << M[k][j] << endl;
+        k = k + mover0;
+        j = j + mover1;
+        
       }
       else
       {
 
-        cout << "non saltare nessuno" << M[k][h] << endl;
+        cout << "non saltare nessuno" << M[k][j] << endl;
         antiJumpbool = true;
         break;
       }
@@ -101,30 +201,8 @@ bool antiJump(int l, int h, int l_2, int h_2)
   }
   else
   {
-    while (M[k][l] != M[l][h])
-    {
-      if (M[k][l] == "0")
-      {
-        cout << "k:" << M[l][j] << endl;
-        if (h_2 < h)
-        {
-          j++;
-        }
-        else
-        {
-          j--;
-        }
-        cout << "j:" << M[l][j] << endl;
-      }
-      else
-      {
-
-        antiJumpbool = true;
-        break;
-      }
-    }
+    cout<< "regina"<< endl;
   }
-
   return antiJumpbool;
 };
 
@@ -159,10 +237,17 @@ public:
     else
     {
       cout << "Mossa valida" << endl;
-      M[l_2][h_2] = M[l][h];
-      M[l][h] = "0";
-      l = l_2;
-      h = h_2;
+      if (M[l_2][h_2] == M[l][h]){
+        cout << "Mossa non valida" << endl;
+      }
+      else
+      {
+        M[l_2][h_2] = M[l][h];
+        M[l][h] = "0";
+        l = l_2;
+        h = h_2;
+      }
+     
     }
   }
 };
@@ -185,17 +270,23 @@ public:
     cin >> h_2;
     delt = fabs(l - l_2);
     delh = fabs(h - h_2);
-    if ((delh != 0 & delt != 0) || antiJump(l, h, l_2, h_2) || moveStart(l, h, l_2, h_2))
+    if ((delh != 0 & delt != 0) || antiJump(l, h, l_2, h_2,0) || moveStart(l, h, l_2, h_2))
     {
       cout << "Mossa non valida" << endl;
     }
     else
     {
       cout << "Mossa valida" << endl;
-      M[l_2][h_2] = M[l][h];
-      M[l][h] = "0";
-      l = l_2;
-      h = h_2;
+      if (M[l_2][h_2] == M[l][h]){
+        cout << "Mossa non valida" << endl;
+      }
+      else
+      {
+        M[l_2][h_2] = M[l][h];
+        M[l][h] = "0";
+        l = l_2;
+        h = h_2;
+      }
     }
   }
 };
@@ -223,8 +314,17 @@ public:
       validita = false;
     }
     else
-    {
-      NULL;
+    { 
+      if (M[l_2][h_2] == M[l][h]){
+        cout << "Mossa non valida" << endl;
+      }
+      else
+      {
+        M[l_2][h_2] = M[l][h];
+        M[l][h] = "0";
+        l = l_2;
+        h = h_2;
+      }
     }
   }
 };
@@ -238,6 +338,7 @@ private:
 public:
   int l;
   int h;
+  
   bool validita;
 
   void move()
@@ -248,8 +349,7 @@ public:
     delt = fabs(l - l_2);
     delh = fabs(h - h_2);
     cout << l << h;
-    cout << delt << delh;
-    if (delt != delh || moveStart(l, h, l_2, h_2))
+    if ((l + h != l_2 + h_2 & l - h != l_2 - h_2) || antiJump(l, h, l_2, h_2,1)|| moveStart(l, h, l_2, h_2))
     {
       validita = false;
       cout << "Mossa non valida" << endl;
@@ -257,10 +357,16 @@ public:
     else
     {
       cout << "Mossa valida" << endl;
-      M[l_2][h_2] = M[l][h];
-      M[l][h] = "0";
-      l = l_2;
-      h = h_2;
+       if (M[l_2][h_2] == M[l][h]){
+        cout << "Mossa non valida" << endl;
+      }
+      else
+      {
+        M[l_2][h_2] = M[l][h];
+        M[l][h] = "0";
+        l = l_2;
+        h = h_2;
+      }
     }
   }
 };
@@ -284,13 +390,23 @@ public:
     cin >> h_2;
     delt = fabs(l - l_2);
     delh = fabs(h - h_2);
-    if (l + h != l_2 + h_2 & l - h != l_2 - h_2 & delh != 0 & delt != 0)
+    if (((l + h != l_2 + h_2 & l - h != l_2 - h_2 ) || (delh != 0 &  delt != 0)) || moveStart(l, h, l_2, h_2) || (antiJump(l, h, l_2, h_2,1)||antiJump(l, h, l_2, h_2,0)))
     {
       validita = false;
+       cout << "Mossa non valida" << endl;
     }
     else
     {
-      NULL;
+       if (M[l_2][h_2] == M[l][h]){
+        cout << "Mossa non valida" << endl;
+      }
+      else
+      {
+        M[l_2][h_2] = M[l][h];
+        M[l][h] = "0";
+        l = l_2;
+        h = h_2;
+      };
     }
   }
 };
@@ -319,7 +435,16 @@ public:
     }
     else
     {
-      NULL;
+       if (M[l_2][h_2] == M[l][h]){
+        cout << "Mossa non valida" << endl;
+      }
+      else
+      {
+        M[l_2][h_2] = M[l][h];
+        M[l][h] = "0";
+        l = l_2;
+        h = h_2;
+      };
     }
   }
 };
@@ -450,26 +575,21 @@ void setLocStart()
 
   p1.T1.l = 0;
   p1.T1.h = 0;
-  p2.T1.l = 7;
-  p2.T1.h = 0;
-
-  /////////////
-  p1.T2.l = 1;
-  p1.T2.h = 1;
-
-  p2.T1.l = 7;
-  p2.T1.h = 0;
-
-  p1.KG.l = 1;
-  p1.KG.h = 0;
-  p1.Q.l = 1;
-  p1.Q.h = 1;
-
+  p1.T2.l = 0;
+  p1.T2.h = 7;
+  p1.C1.l = 0;
+  p1.C1.h = 1;
+  p1.C2.l = 0;
+  p1.C2.h = 6;
+  p1.KG.l = 0;
+  p1.KG.h = 4;
+  p1.Q.l = 0;
+  p1.Q.h = 3;
   p1.B1.l = 0;
   p1.B1.h = 2;
   p1.B2.l = 0;
   p1.B2.h = 5;
-
+///////////// ///////////// ///////////// ///////////// ///////////// /////////////
   p2.P1.l = 6;
   p2.P1.h = 0;
   p2.P2.l = 6;
@@ -486,7 +606,19 @@ void setLocStart()
   p2.P7.h = 6;
   p2.P8.l = 6;
   p2.P8.h = 7;
-
+/////////////////////////
+  p2.T1.l = 7;
+  p2.T1.h = 0;
+  p2.T2.l = 7;
+  p2.T2.h = 7;
+  p2.C1.l = 7;
+  p2.C1.h = 1;
+  p2.C2.l = 7;
+  p2.C2.h = 6;
+  p2.KG.l = 7;
+  p2.KG.h = 3;
+  p2.Q.l = 7;
+  p2.Q.h = 4;
   p2.B1.l = 7;
   p2.B1.h = 2;
   p2.B2.l = 7;
