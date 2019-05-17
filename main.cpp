@@ -12,7 +12,6 @@ int h_2;
 double delt;
 double delh;
 
-
 // Definiamo la tavola di partenza
 string set[64] = {"R01", "K01", "B01", "Q0", "L0", "B02", "K02", "R02",
                   "P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
@@ -21,8 +20,7 @@ string set[64] = {"R01", "K01", "B01", "Q0", "L0", "B02", "K02", "R02",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18",
-                  "R11", "K11", "B11", "F1", "Q1", "B12", "K12", "R12"
-                  };
+                  "R11", "K11", "B11", "F1", "Q1", "B12", "K12", "R12"};
 
 // Carichiamo la tavola in un oggetto Matrice
 Matrix<string> M(8, 8, set);
@@ -46,16 +44,18 @@ bool moveStart(int l, int h, int l_2, int h_2)
   }
 
   return isNotValid;
-};
-bool antiJump(int l, int h, int l_2, int h_2,int flagAntiJump)
+}
+
+bool antiJump(int l, int h, int l_2, int h_2, int flagAntiJump)
 {
-  bool antiJumpbool ;
-  int delx =  l_2- l;
-  int dely =  h_2- h;
+  bool antiJumpbool;
+  int delx = l_2 - l;
+  int dely = h_2 - h;
   int k;
   int j;
 
-  if (flagAntiJump == 0 ){
+  if (flagAntiJump == 0)
+  {
 
     if (l_2 < l)
     {
@@ -131,56 +131,54 @@ bool antiJump(int l, int h, int l_2, int h_2,int flagAntiJump)
         }
       }
     }
-  }else if (flagAntiJump == 1) {
-    cout << "dely" << dely << "delx"<< delx << endl;
+  }
+  else if (flagAntiJump == 1)
+  {
+    cout << "dely" << dely << "delx" << delx << endl;
     int mover0;
     int mover1;
     //////////////////////////////////////////////////////////
-    if (dely*delx > 0 )
+    if (dely * delx > 0)
     {
 
-     if (dely < 0 ){
-        cout << "sinistra in alto"<< endl;
-        k = l_2+1;
-        j = h_2+1;
+      if (dely < 0)
+      {
+        cout << "sinistra in alto" << endl;
+        k = l_2 + 1;
+        j = h_2 + 1;
         mover0 = 1;
         mover1 = 1;
-
-     }
-     else
-     {
-       cout << "destra in basso"<< endl;
-       k = l_2-1;
-       j = h_2-1;
-       mover0 = -1;
-       mover1 = -1;
-
-
-     }
-     
+      }
+      else
+      {
+        cout << "destra in basso" << endl;
+        k = l_2 - 1;
+        j = h_2 - 1;
+        mover0 = -1;
+        mover1 = -1;
+      }
     }
     else
     {
-       if (dely > 0 ){
-        cout << "destra in alto"<< endl;
-        k = l_2+1;
-        j = h_2-1;
+      if (dely > 0)
+      {
+        cout << "destra in alto" << endl;
+        k = l_2 + 1;
+        j = h_2 - 1;
         mover0 = +1;
         mover1 = -1;
-
-     }
-     else
-     {
+      }
+      else
+      {
         cout << "sinistra in basso" << endl;
-        k = l_2-1;
-        j = h_2+1;
+        k = l_2 - 1;
+        j = h_2 + 1;
         mover0 = -1;
         mover1 = +1;
-     }
-      
+      }
     }
-  
-  while (M[k][j] != M[l][h])
+
+    while (M[k][j] != M[l][h])
     {
       if (M[k][j] == "0")
       {
@@ -188,7 +186,6 @@ bool antiJump(int l, int h, int l_2, int h_2,int flagAntiJump)
         cout << "k:" << M[k][j] << endl;
         k = k + mover0;
         j = j + mover1;
-        
       }
       else
       {
@@ -201,10 +198,10 @@ bool antiJump(int l, int h, int l_2, int h_2,int flagAntiJump)
   }
   else
   {
-    cout<< "regina"<< endl;
+    cout << "regina" << endl;
   }
   return antiJumpbool;
-};
+}
 
 // Definizione della classe pedone che prevede gli spostamenti di questa tipologia di pezzi
 class pedone
@@ -228,7 +225,7 @@ public:
     else
     {
       validita = true;
-    };
+    }
 
     if (!validita || moveStart(l, h, l_2, h_2))
     {
@@ -237,7 +234,8 @@ public:
     else
     {
       cout << "Mossa valida" << endl;
-      if (M[l_2][h_2] == M[l][h]){
+      if (M[l_2][h_2] == M[l][h])
+      {
         cout << "Mossa non valida" << endl;
       }
       else
@@ -247,7 +245,6 @@ public:
         l = l_2;
         h = h_2;
       }
-     
     }
   }
 };
@@ -270,14 +267,15 @@ public:
     cin >> h_2;
     delt = fabs(l - l_2);
     delh = fabs(h - h_2);
-    if ((delh != 0 & delt != 0) || antiJump(l, h, l_2, h_2,0) || moveStart(l, h, l_2, h_2))
+    if ((delh != 0 & delt != 0) || antiJump(l, h, l_2, h_2, 0) || moveStart(l, h, l_2, h_2))
     {
       cout << "Mossa non valida" << endl;
     }
     else
     {
       cout << "Mossa valida" << endl;
-      if (M[l_2][h_2] == M[l][h]){
+      if (M[l_2][h_2] == M[l][h])
+      {
         cout << "Mossa non valida" << endl;
       }
       else
@@ -314,8 +312,9 @@ public:
       validita = false;
     }
     else
-    { 
-      if (M[l_2][h_2] == M[l][h]){
+    {
+      if (M[l_2][h_2] == M[l][h])
+      {
         cout << "Mossa non valida" << endl;
       }
       else
@@ -338,7 +337,7 @@ private:
 public:
   int l;
   int h;
-  
+
   bool validita;
 
   void move()
@@ -349,7 +348,7 @@ public:
     delt = fabs(l - l_2);
     delh = fabs(h - h_2);
     cout << l << h;
-    if ((l + h != l_2 + h_2 & l - h != l_2 - h_2) || antiJump(l, h, l_2, h_2,1)|| moveStart(l, h, l_2, h_2))
+    if ((l + h != l_2 + h_2 & l - h != l_2 - h_2) || antiJump(l, h, l_2, h_2, 1) || moveStart(l, h, l_2, h_2))
     {
       validita = false;
       cout << "Mossa non valida" << endl;
@@ -357,7 +356,8 @@ public:
     else
     {
       cout << "Mossa valida" << endl;
-       if (M[l_2][h_2] == M[l][h]){
+      if (M[l_2][h_2] == M[l][h])
+      {
         cout << "Mossa non valida" << endl;
       }
       else
@@ -390,14 +390,15 @@ public:
     cin >> h_2;
     delt = fabs(l - l_2);
     delh = fabs(h - h_2);
-    if (((l + h != l_2 + h_2 & l - h != l_2 - h_2 ) || (delh != 0 &  delt != 0)) || moveStart(l, h, l_2, h_2) || (antiJump(l, h, l_2, h_2,1)||antiJump(l, h, l_2, h_2,0)))
+    if (((l + h != l_2 + h_2 & l - h != l_2 - h_2) || (delh != 0 & delt != 0)) || moveStart(l, h, l_2, h_2) || (antiJump(l, h, l_2, h_2, 1) || antiJump(l, h, l_2, h_2, 0)))
     {
       validita = false;
-       cout << "Mossa non valida" << endl;
+      cout << "Mossa non valida" << endl;
     }
     else
     {
-       if (M[l_2][h_2] == M[l][h]){
+      if (M[l_2][h_2] == M[l][h])
+      {
         cout << "Mossa non valida" << endl;
       }
       else
@@ -406,7 +407,7 @@ public:
         M[l][h] = "0";
         l = l_2;
         h = h_2;
-      };
+      }
     }
   }
 };
@@ -435,7 +436,8 @@ public:
     }
     else
     {
-       if (M[l_2][h_2] == M[l][h]){
+      if (M[l_2][h_2] == M[l][h])
+      {
         cout << "Mossa non valida" << endl;
       }
       else
@@ -444,7 +446,7 @@ public:
         M[l][h] = "0";
         l = l_2;
         h = h_2;
-      };
+      }
     }
   }
 };
@@ -589,7 +591,7 @@ void setLocStart()
   p1.B1.h = 2;
   p1.B2.l = 0;
   p1.B2.h = 5;
-///////////// ///////////// ///////////// ///////////// ///////////// /////////////
+  ///////////// ///////////// ///////////// ///////////// ///////////// /////////////
   p2.P1.l = 6;
   p2.P1.h = 0;
   p2.P2.l = 6;
@@ -606,7 +608,7 @@ void setLocStart()
   p2.P7.h = 6;
   p2.P8.l = 6;
   p2.P8.h = 7;
-/////////////////////////
+  /////////////////////////
   p2.T1.l = 7;
   p2.T1.h = 0;
   p2.T2.l = 7;
