@@ -12,6 +12,8 @@ int h_2;
 double delt;
 double delh;
 
+bool checkmate = false;
+
 // Definiamo la tavola di partenza
 string set[64] = {"R01", "K01", "B01", "Q0", "L0", "B02", "K02", "R02",
                   "P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
@@ -631,8 +633,7 @@ int main()
 {
   setLocStart();
   //p1.P1.h = 0;
-  for (int turni = 0; turni < 4; turni++)
-  {
+  while (!checkmate) {
     cout << M << endl;
     p1.scelta();
     cout << M << endl;
