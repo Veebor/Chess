@@ -478,7 +478,7 @@ public:
     do
     {
       flag1 = true;
-      cout << "Quale pezzo vuoi muovere? (reset per pulire la tavola e ricominciare)" << endl;
+      cout << "Quale pezzo vuoi muovere? (inserire exit per uscire)" << endl;
       string typo;
       cin >> typo;
       // Non possiamo usare uno switch-case poichè typo è di tipo stringa
@@ -545,6 +545,10 @@ public:
       else if (typo == "re")
       {
         KG.move();
+      }
+      else if (typo == "exit") {
+        //_Exit(0);
+        checkmate = true;
       }
       else
       {
@@ -636,8 +640,11 @@ int main()
   while (!checkmate) {
     cout << M << endl;
     p1.scelta();
+    if (checkmate) {
+      break;
+    }
     cout << M << endl;
     p2.scelta();
   }
-  return 0;
+  _Exit(0);
 }
