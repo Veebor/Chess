@@ -26,6 +26,24 @@ string set[64] = {"R01", "K01", "B01", "Q0", "L0", "B02", "K02", "R02",
 
 // Carichiamo la tavola in un oggetto Matrice
 Matrix<string> M(8, 8, set);
+void checkMate(){
+  int p = 0;
+  for (int i =0; i < 8; i++ ){
+    
+    for (int a=0; a < 8; a++){
+      if (M[i][a] != "L0" & M[i][a] != "F1"){
+        p++;
+      } else { NULL;
+
+      }
+    }
+  }
+  if (p != 62){
+     checkmate = true;
+     cout << "Scacco Matto!!" <<endl;
+   }
+
+};
 
 bool moveStart(int l, int h, int l_2, int h_2)
 {
@@ -679,11 +697,13 @@ int main()
   while (!checkmate) {
     cout << M << endl;
     p1.scelta();
+    checkMate();
     if (checkmate) {
       break;
     }
     cout << M << endl;
     p2.scelta();
+    checkMate();
   }
   _Exit(0);
 }
