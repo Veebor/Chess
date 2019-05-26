@@ -455,7 +455,7 @@ public:
 
 struct squadra
 {
-public:
+
   pedone P1;
   pedone P2;
   pedone P3;
@@ -479,81 +479,120 @@ public:
     {
       flag1 = true;
       cout << "Quale pezzo vuoi muovere? (inserire exit per uscire)" << endl;
-      string typo;
+      char typo ;
+       int num;
       cin >> typo;
-      // Non possiamo usare uno switch-case poichè typo è di tipo stringa
-      if (typo == "pedone1")
+      switch (typo)
       {
-        P1.move();
-      }
-      else if (typo == "pedone2")
-      {
-        P2.move();
-      }
-      else if (typo == "pedone3")
-      {
-        P3.move();
-      }
-      else if (typo == "pedone4")
-      {
-        P4.move();
-      }
-      else if (typo == "pedone5")
-      {
-        P5.move();
-      }
-      else if (typo == "pedone6")
-      {
-        P6.move();
-      }
-      else if (typo == "pedone7")
-      {
-        P7.move();
-      }
-      else if (typo == "pedone8")
-      {
-        P8.move();
-      }
-      else if (typo == "torre1")
-      {
-        T1.move();
-      }
-      else if (typo == "torre2")
-      {
-        T2.move();
-      }
-      else if (typo == "alfiere1")
-      {
-        B1.move();
-      }
-      else if (typo == "alfiere2")
-      {
-        B2.move();
-      }
-      else if (typo == "cavallo1")
-      {
-        C1.move();
-      }
-      else if (typo == "cavallo2")
-      {
-        C2.move();
-      }
-      else if (typo == "regina")
-      {
-        Q.move();
-      }
-      else if (typo == "re")
-      {
-        KG.move();
-      }
-      else if (typo == "exit") {
-        //_Exit(0);
-        checkmate = true;
-      }
-      else
-      {
-        cout << "COGLIONE!" << endl;
-        flag1 = false;
+      case 'p' :
+       
+        cin >> num ;
+        switch (num)
+        {
+        case 1:
+          cout << "P1" <<endl;
+          P1.move();
+          break;
+        case 2:
+          cout << "P2" <<endl;
+          P2.move();
+          break;
+        case 3:
+          cout << "P3" <<endl;
+          P3.move();
+          break;
+        case 4:
+          cout << "P4" <<endl;
+          P4.move();
+          break;
+        case 5:
+          cout << "P5" <<endl;
+          P5.move();
+          break;
+        case 6:
+          cout << "P6" <<endl;
+          P6.move();
+          break;
+        case 7:
+          cout << "P7" <<endl;
+          P7.move();
+          break;
+        case 8:
+          cout << "P8" <<endl;
+          P8.move();
+          break;
+        default:       
+          break;
+        }
+                
+        break;
+      case 't':
+        cin >> num ;
+        switch (num)
+        {
+        case 1:
+          cout << "P1" <<endl;
+          T1.move();
+          break;
+        case 2:
+          cout << "P2" <<endl;
+          T2.move();
+          break;
+        
+        default:
+          break;
+        }
+      case 'a':
+        cin >> num ;
+        switch (num)
+        {
+        case 1:
+          cout << "B1" <<endl;
+          B1.move();
+          break;
+        case 2:
+          cout << "B2" <<endl;
+          B2.move();
+          break;
+        
+        default:
+          break;
+        }
+      case 'c':
+        cin >> num ;
+        switch (num)
+        {
+        case 1:
+          cout << "C1" <<endl;
+          C1.move();
+          break;
+        case 2:
+          cout << "C2" <<endl;
+          C2.move();
+          break;
+        
+        default:
+          break;
+        }
+        case 'k':
+          cout << "re" <<endl;
+          KG.move();
+          break;
+
+        case 'q':
+          cout << "regina" <<endl;
+          Q.move();
+          break;
+        case 'e':
+          cout << "Exit in corso...." <<endl;
+          checkmate = true;
+          break;
+      
+        default:
+          cout << "Riprova!" << endl;
+          flag1 = false;
+      
+        break;
       }
     } while (flag1 == false);
   }
