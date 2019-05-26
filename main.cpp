@@ -26,24 +26,26 @@ string set[64] = {"R01", "K01", "B01", "Q0", "L0", "B02", "K02", "R02",
 
 // Carichiamo la tavola in un oggetto Matrice
 Matrix<string> M(8, 8, set);
-void checkMate(){
+void checkMate()
+{
   int p = 0;
-  for (int i =0; i < 8; i++ ){
-    
-    for (int a=0; a < 8; a++){
-      if (M[i][a] != "L0" & M[i][a] != "F1"){
-        p++;
-      } else { NULL;
+  for (int i = 0; i < 8; i++)
+  {
 
+    for (int a = 0; a < 8; a++)
+    {
+      if (M[i][a] != "L0" & M[i][a] != "F1")
+      {
+        p++;
       }
     }
   }
-  if (p != 62){
-     checkmate = true;
-     cout << "Scacco Matto!!" <<endl;
-   }
-
-};
+  if (p != 62)
+  {
+    checkmate = true;
+    cout << "Scacco Matto!!" << endl;
+  }
+}
 
 bool moveStart(int l, int h, int l_2, int h_2)
 {
@@ -496,120 +498,118 @@ struct squadra
     do
     {
       flag1 = true;
-      cout << "Quale pezzo vuoi muovere? (inserire exit per uscire)" << endl;
-      char typo ;
-       int num;
+      cout << "Quale pezzo vuoi muovere? (lettera)" << endl;
+      char typo;
+      int num;
       cin >> typo;
+      // Lo metto qui per non riscriverlo ogni volta
+      // Logicamente andrebbe prima di ogni cin
+      cout << "Quale pezzo vuoi muovere? (numero)" << endl;
       switch (typo)
       {
-      case 'p' :
-       
-        cin >> num ;
+      case 'p':
+        cin >> num;
         switch (num)
         {
         case 1:
-          cout << "P1" <<endl;
+          cout << "P1" << endl;
           P1.move();
           break;
         case 2:
-          cout << "P2" <<endl;
+          cout << "P2" << endl;
           P2.move();
           break;
         case 3:
-          cout << "P3" <<endl;
+          cout << "P3" << endl;
           P3.move();
           break;
         case 4:
-          cout << "P4" <<endl;
+          cout << "P4" << endl;
           P4.move();
           break;
         case 5:
-          cout << "P5" <<endl;
+          cout << "P5" << endl;
           P5.move();
           break;
         case 6:
-          cout << "P6" <<endl;
+          cout << "P6" << endl;
           P6.move();
           break;
         case 7:
-          cout << "P7" <<endl;
+          cout << "P7" << endl;
           P7.move();
           break;
         case 8:
-          cout << "P8" <<endl;
+          cout << "P8" << endl;
           P8.move();
           break;
-        default:       
+        default:
           break;
-        }
-                
+        }      
         break;
       case 't':
-        cin >> num ;
+        cin >> num;
         switch (num)
         {
         case 1:
-          cout << "P1" <<endl;
+          cout << "T1" << endl;
           T1.move();
           break;
         case 2:
-          cout << "P2" <<endl;
+          cout << "T2" << endl;
           T2.move();
           break;
-        
         default:
           break;
         }
+        break;
       case 'a':
-        cin >> num ;
+        cin >> num;
         switch (num)
         {
         case 1:
-          cout << "B1" <<endl;
+          cout << "B1" << endl;
           B1.move();
           break;
         case 2:
-          cout << "B2" <<endl;
+          cout << "B2" << endl;
           B2.move();
           break;
-        
         default:
           break;
         }
+        break;
       case 'c':
-        cin >> num ;
+        cin >> num;
         switch (num)
         {
         case 1:
-          cout << "C1" <<endl;
+          cout << "C1" << endl;
           C1.move();
           break;
         case 2:
-          cout << "C2" <<endl;
+          cout << "C2" << endl;
           C2.move();
           break;
-        
         default:
           break;
         }
-        case 'k':
-          cout << "re" <<endl;
-          KG.move();
-          break;
-
-        case 'q':
-          cout << "regina" <<endl;
-          Q.move();
-          break;
-        case 'e':
-          cout << "Exit in corso...." <<endl;
-          checkmate = true;
-          break;
-      
-        default:
-          cout << "Riprova!" << endl;
-          flag1 = false;
-      
+        break;
+      case 'k':
+        cout << "re" << endl;
+        KG.move();
+        break;
+      case 'q':
+        cout << "regina" << endl;
+        Q.move();
+        break;
+      case 'e':
+        cout << "Exit in corso...." << endl;
+        checkmate = true;
+        break;
+      default:
+        cout << "Riprova!" << endl;
+        flag1 = false;
         break;
       }
     } while (flag1 == false);
@@ -694,11 +694,13 @@ int main()
 {
   setLocStart();
   //p1.P1.h = 0;
-  while (!checkmate) {
+  while (!checkmate)
+  {
     cout << M << endl;
     p1.scelta();
     checkMate();
-    if (checkmate) {
+    if (checkmate)
+    {
       break;
     }
     cout << M << endl;
