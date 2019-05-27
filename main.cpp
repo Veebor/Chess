@@ -7,6 +7,8 @@ int l;
 int h;
 int l_2;
 int h_2;
+int nummoss =0;
+int var;
 
 // Definiamo i delta degli spostamenti dei pezzi
 double delt;
@@ -17,7 +19,7 @@ bool checkmate = false;
 // Definiamo la tavola di partenza
 string set[64] = {"R01", "K01", "B01", "Q0", "L0", "B02", "K02", "R02",
                   "P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
-                  "0", "0", "0", "0", "0", "0", "0", "0",
+                  "0", "P11", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
@@ -59,10 +61,7 @@ bool moveStart(int l, int h, int l_2, int h_2)
   else
   {
     isNotValid = (toMove[1] == toMoveStart[1]);
-    if (!isNotValid)
-    {
-      cout << toMoveStart << " mangia " << toMove << endl;
-    }
+    
   }
 
   return isNotValid;
@@ -232,6 +231,9 @@ public:
   int l;
   int h;
   bool validita;
+  bool validita2;
+  bool validita3;
+  
   void move()
   {
     cout << "Inserire l e h " << endl;
@@ -239,34 +241,63 @@ public:
     cin >> h_2;
     delt = fabs(l - l_2);
     delh = fabs(h - h_2);
-
-    if (delh != 0 || delt > 1)
+    
+    if (nummoss == 1 ||nummoss == 2 ){
+      var = 2;
+    }
+    else
     {
+      var = 1;
+
+    }
+    if (delh != 0 || delt > var)
+    {
+      
       validita = false;
     }
     else
     {
       validita = true;
     }
-
-    if (!validita || moveStart(l, h, l_2, h_2))
+    if (delh != 1 || delt != 1)
     {
-      cout << "Mossa non valida" << endl;
+     
+      validita2= false;
     }
     else
     {
-      cout << "Mossa valida" << endl;
-      if (M[l_2][h_2] == M[l][h])
+      
+      validita2= true;
+    }
+    if (M[l_2][h_2] == "0"){
+      validita3 = true;
+    }
+    else 
+    {
+      validita3= false;
+    }
+
+    if (validita & validita3 || (validita2 & (!validita3 & !moveStart(l, h, l_2, h_2))))
+    {
+       if (M[l_2][h_2] == M[l][h])
       {
         cout << "Mossa non valida" << endl;
       }
       else
       {
+        cout << "Mossa valida" << endl;
         M[l_2][h_2] = M[l][h];
         M[l][h] = "0";
         l = l_2;
         h = h_2;
       }
+     
+    }
+    else
+    { 
+      cout << "Mossa non valida" << endl;
+     
+     
     }
   }
 };
@@ -289,7 +320,7 @@ public:
     cin >> h_2;
     delt = fabs(l - l_2);
     delh = fabs(h - h_2);
-    if ((delh != 0 & delt != 0) || antiJump(l, h, l_2, h_2, 0) || moveStart(l, h, l_2, h_2))
+    if ((delh != 0 & delt != 0) || antiJump(l, h, l_2, h_2, 0) || !moveStart(l, h, l_2, h_2))
     {
       cout << "Mossa non valida" << endl;
     }
@@ -498,16 +529,13 @@ struct squadra
     do
     {
       flag1 = true;
-      cout << "Quale pezzo vuoi muovere? (lettera)" << endl;
+      cout << "Quale pezzo vuoi muovere? ( 'e' per uscire )" << endl;
       char typo;
       int num;
       cin >> typo;
-      // Lo metto qui per non riscriverlo ogni volta
-      // Logicamente andrebbe prima di ogni cin
-      cout << "Quale pezzo vuoi muovere? (numero)" << endl;
       switch (typo)
       {
-      case 'p':
+      case 'P':
         cin >> num;
         switch (num)
         {
@@ -547,7 +575,7 @@ struct squadra
           break;
         }      
         break;
-      case 't':
+      case 'T':
         cin >> num;
         switch (num)
         {
@@ -563,7 +591,7 @@ struct squadra
           break;
         }
         break;
-      case 'a':
+      case 'A':
         cin >> num;
         switch (num)
         {
@@ -579,7 +607,7 @@ struct squadra
           break;
         }
         break;
-      case 'c':
+      case 'C':
         cin >> num;
         switch (num)
         {
@@ -595,16 +623,17 @@ struct squadra
           break;
         }
         break;
-      case 'k':
+      case 'K':
         cout << "re" << endl;
         KG.move();
         break;
-      case 'q':
+      case 'Q':
         cout << "regina" << endl;
         Q.move();
         break;
-      case 'e':
+      case 'E':
         cout << "Exit in corso...." << endl;
+      
         checkmate = true;
         break;
       default:
@@ -654,7 +683,7 @@ void setLocStart()
   p1.B1.h = 2;
   p1.B2.l = 0;
   p1.B2.h = 5;
-  ///////////// ///////////// ///////////// ///////////// ///////////// /////////////
+  
   p2.P1.l = 6;
   p2.P1.h = 0;
   p2.P2.l = 6;
@@ -671,14 +700,13 @@ void setLocStart()
   p2.P7.h = 6;
   p2.P8.l = 6;
   p2.P8.h = 7;
-  /////////////////////////
+ 
   p2.T1.l = 7;
   p2.T1.h = 0;
   p2.T2.l = 7;
   p2.T2.h = 7;
   p2.C1.l = 7;
-  p2.C1.h = 1;
-  p2.C2.l = 7;
+  p2.C1.h = 1; 
   p2.C2.h = 6;
   p2.KG.l = 7;
   p2.KG.h = 3;
@@ -696,6 +724,7 @@ int main()
   //p1.P1.h = 0;
   while (!checkmate)
   {
+    nummoss++;
     cout << M << endl;
     p1.scelta();
     checkMate();
@@ -704,6 +733,7 @@ int main()
       break;
     }
     cout << M << endl;
+    nummoss++;
     p2.scelta();
     checkMate();
   }
