@@ -17,14 +17,14 @@ double delh;
 bool checkmate = false;
 
 // Definiamo la tavola di partenza
-string set[64] = {"R01", "K01", "B01", "Q0", "L0", "B02", "K02", "R02",
+string set[64] = {"T01", "C01", "A01", "Q0", "L0", "A02", "C02", "T02",
                   "P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
-                  "0", "P11", "0", "0", "0", "0", "0", "0",
+                  "0", "0", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
                   "0", "PP", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
-                  "0", "P12", "P13", "P14", "P15", "P16", "P17", "P18",
-                  "R11", "K11", "B11", "F1", "Q1", "B12", "K12", "R12"};
+                  "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18",
+                  "T11", "C11", "A11", "F1", "Q1", "A12", "C12", "T12"};
 
 // Carichiamo la tavola in un oggetto Matrice
 Matrix<string> M(8, 8, set);
@@ -607,11 +607,11 @@ struct squadra
         switch (num)
         {
         case 1:
-          cout << "B1" << endl;
+          cout << "A1" << endl;
           B1.move();
           break;
         case 2:
-          cout << "B2" << endl;
+          cout << "A2" << endl;
           B2.move();
           break;
         default:
