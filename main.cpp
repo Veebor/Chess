@@ -21,9 +21,9 @@ string set[64] = {"R01", "K01", "B01", "Q0", "L0", "B02", "K02", "R02",
                   "P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08",
                   "0", "P11", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
+                  "0", "PP", "0", "0", "0", "0", "0", "0",
                   "0", "0", "0", "0", "0", "0", "0", "0",
-                  "0", "0", "0", "0", "0", "0", "0", "0",
-                  "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18",
+                  "0", "P12", "P13", "P14", "P15", "P16", "P17", "P18",
                   "R11", "K11", "B11", "F1", "Q1", "B12", "K12", "R12"};
 
 // Carichiamo la tavola in un oggetto Matrice
@@ -70,6 +70,8 @@ bool moveStart(int l, int h, int l_2, int h_2)
 bool antiJump(int l, int h, int l_2, int h_2, int flagAntiJump)
 {
   bool antiJumpbool;
+  double  delt = fabs(l - l_2);
+  double delh = fabs(h - h_2);
   int delx = l_2 - l;
   int dely = h_2 - h;
   int k;
@@ -129,24 +131,27 @@ bool antiJump(int l, int h, int l_2, int h_2, int flagAntiJump)
     }
     else
     {
-      while (M[k][l] != M[l][h])
+      while (M[l][j] != M[l][h])
       {
-        if (M[k][l] == "0")
+        cout << l << j << endl; 
+        if (M[l][j] == "0")
         {
-          cout << "k:" << M[l][j] << endl;
+          cout << "j:" << M[l][j] << endl;
           if (h_2 < h)
           {
+            cout << "J:+" << endl;
             j++;
           }
           else
           {
+            cout << "J:-" << endl;
             j--;
           }
           cout << "j:" << M[l][j] << endl;
         }
         else
         {
-
+          cout << "non saltare nessuno" << M[l][j] << endl;
           antiJumpbool = true;
           break;
         }
@@ -236,7 +241,7 @@ public:
   
   void move()
   {
-    cout << "Inserire l e h " << endl;
+    cout << "Inserire r e c  su due righe diverse ( righe 0,7 colonne 0,7)" << endl;
     cin >> l_2;
     cin >> h_2;
     delt = fabs(l - l_2);
@@ -290,6 +295,7 @@ public:
         M[l][h] = "0";
         l = l_2;
         h = h_2;
+        system("clear");
       }
      
     }
@@ -315,12 +321,12 @@ public:
 
   void move()
   {
-    cout << "Inserire l e h " << endl;
+    cout << "Inserire r e c  su due righe diverse ( righe 0,7 colonne 0,7)" << endl;
     cin >> l_2;
     cin >> h_2;
     delt = fabs(l - l_2);
     delh = fabs(h - h_2);
-    if ((delh != 0 & delt != 0) || antiJump(l, h, l_2, h_2, 0) || !moveStart(l, h, l_2, h_2))
+    if ((delh != 0 & delt != 0) || antiJump(l, h, l_2, h_2, 0) || moveStart(l, h, l_2, h_2))
     {
       cout << "Mossa non valida" << endl;
     }
@@ -337,6 +343,7 @@ public:
         M[l][h] = "0";
         l = l_2;
         h = h_2;
+        system("clear");
       }
     }
   }
@@ -355,7 +362,7 @@ public:
 
   void move()
   {
-    cout << "Inserire l e h su due righe diverse" << endl;
+    cout << "Inserire r e c  su due righe diverse ( righe 0,7 colonne 0,7)" << endl;
     cin >> l_2;
     cin >> h_2;
     delt = fabs(l - l_2);
@@ -376,6 +383,7 @@ public:
         M[l][h] = "0";
         l = l_2;
         h = h_2;
+        system("clear");
       }
     }
   }
@@ -395,7 +403,7 @@ public:
 
   void move()
   {
-    cout << "Inserire l e h su due righe diverse" << endl;
+    cout << "Inserire r e c  su due righe diverse ( righe 0,7 colonne 0,7)" << endl;
     cin >> l_2;
     cin >> h_2;
     delt = fabs(l - l_2);
@@ -419,6 +427,7 @@ public:
         M[l][h] = "0";
         l = l_2;
         h = h_2;
+        system("clear");
       }
     }
   }
@@ -438,7 +447,7 @@ public:
   void move()
   {
 
-    cout << "Inserire l e h su due righe diverse" << endl;
+    cout << "Inserire r e c  su due righe diverse ( righe 0,7 colonne 0,7)" << endl;
     cin >> l_2;
     cin >> h_2;
     delt = fabs(l - l_2);
@@ -460,6 +469,7 @@ public:
         M[l][h] = "0";
         l = l_2;
         h = h_2;
+        system("clear");
       }
     }
   }
@@ -478,7 +488,7 @@ public:
 
   void move()
   {
-    cout << "Inserire l e h su due righe diverse" << endl;
+    cout << "Inserire r e c  su due righe diverse ( righe 0,7 colonne 0,7)" << endl;
     cin >> l_2;
     cin >> h_2;
     delt = fabs(l - l_2);
@@ -499,6 +509,7 @@ public:
         M[l][h] = "0";
         l = l_2;
         h = h_2;
+        system("clear");
       }
     }
   }
@@ -529,7 +540,7 @@ struct squadra
     do
     {
       flag1 = true;
-      cout << "Quale pezzo vuoi muovere? ( 'e' per uscire )" << endl;
+      cout << "Quale pezzo vuoi muovere? ( E  per uscire )" << endl;
       char typo;
       int num;
       cin >> typo;
@@ -725,6 +736,7 @@ int main()
   while (!checkmate)
   {
     nummoss++;
+    
     cout << M << endl;
     p1.scelta();
     checkMate();
@@ -732,6 +744,7 @@ int main()
     {
       break;
     }
+   
     cout << M << endl;
     nummoss++;
     p2.scelta();
